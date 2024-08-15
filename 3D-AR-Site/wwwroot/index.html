@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Models in AR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        #model-selector {
+            margin-bottom: 20px;
+        }
+
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 500px;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+    </style>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</head>
+<body>
+    <h1>Select a 3D Model to View in AR</h1>
+
+    <div id="model-selector">
+        <button onclick="changeModel('model1.glb')">Model 1</button>
+        <button onclick="changeModel('model2.glb')">Model 2</button>
+        <button onclick="changeModel('model3.glb')">Model 3</button>
+    </div>
+
+    <model-viewer id="viewer" src="models/model1.glb" alt="A 3D model" ar ar-modes="scene-viewer webxr quick-look" environment-image="neutral" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
+
+    <script>
+        function changeModel(model) {
+            const viewer = document.getElementById('viewer');
+            viewer.setAttribute('src', `models/${model}`);
+        }
+    </script>
+</body>
+</html>
