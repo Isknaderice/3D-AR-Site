@@ -34,6 +34,16 @@
             border: 1px solid #ccc;
             margin-top: 20px;
         }
+
+        .surface-scanner {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 255, 0, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            display: none;
+        }
     </style>
     <script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
 </head>
@@ -45,6 +55,8 @@
         <button onclick="changeModel('model2.glb')">Model 2</button>
         <button onclick="changeModel('model3.glb')">Model 3</button>
     </div>
+
+    <div class="surface-scanner" id="surface-scanner"></div>
 
     <model-viewer id="viewer"
                   src="model1.glb"
@@ -58,11 +70,21 @@
 
     <script>
         const viewer = document.getElementById('viewer');
+        const scanner = document.getElementById('surface-scanner');
 
         viewer.addEventListener('ar-status', (event) => {
             if (event.detail.status === 'session-started') {
-                // Здесь можно добавить действия после начала сессии AR
-                viewer.setAttribute('ar-placement', 'uninitialized');
+                // Включаем сканер поверхности при запуске AR сессии
+                scanner.style.display = 'block';
+            }
+        });
+
+        viewer.addEventListener('ar-hit-test', (event) => {
+            if (event.detail?.hits?.length) {
+                const hit = event.detail.hits[0];
+                const x = hit.x * viewer.clientWidth;
+                const y = hit.y * viewer.clientHeight;
+                scanner.style.transform = `translate(${x}px, ${y}px)`;
             }
         });
 
