@@ -68,29 +68,22 @@
                   placement-mode="interactive">
     </model-viewer>
 
-    <script>
-        const viewer = document.getElementById('viewer');
-        const scanner = document.getElementById('surface-scanner');
+<script>
+    const viewer = document.getElementById('viewer');
 
-        viewer.addEventListener('ar-status', (event) => {
-            if (event.detail.status === 'session-started') {
-                // Включаем сканер поверхности при запуске AR сессии
-                scanner.style.display = 'block';
-            }
-        });
-
-        viewer.addEventListener('ar-hit-test', (event) => {
-            if (event.detail?.hits?.length) {
-                const hit = event.detail.hits[0];
-                const x = hit.x * viewer.clientWidth;
-                const y = hit.y * viewer.clientHeight;
-                scanner.style.transform = `translate(${x}px, ${y}px)`;
-            }
-        });
-
-        function changeModel(model) {
-            viewer.setAttribute('src', `${model}`);
+    viewer.addEventListener('ar-status', (event) => {
+        if (event.detail.status === 'session-started') {
+            // Убедитесь, что AR сессия началась без автоматического размещения модели
+            viewer.setAttribute('ar-placement', 'uninitialized');
         }
-    </script>
+    });
+
+    viewer.addEventListener('ar-hit-test', (event) => {
+        if (event.detail?.hits?.length) {
+            // Как только поверхность определена, пользователь может выбрать место для модели
+            viewer.setAttribute('placement-mode', 'interactive');
+        }
+    });
+</script>
 </body>
 </html>
