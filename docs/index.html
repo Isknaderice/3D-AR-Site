@@ -52,12 +52,21 @@
                   ar ar-modes="scene-viewer webxr quick-look"
                   environment-image="neutral"
                   auto-rotate camera-controls shadow-intensity="1"
-                  ar-placement="floor">
+                  ar-placement="uninitialized"
+                  placement-mode="interactive">
     </model-viewer>
 
     <script>
+        const viewer = document.getElementById('viewer');
+
+        viewer.addEventListener('ar-status', (event) => {
+            if (event.detail.status === 'session-started') {
+                // Здесь можно добавить действия после начала сессии AR
+                viewer.setAttribute('ar-placement', 'uninitialized');
+            }
+        });
+
         function changeModel(model) {
-            const viewer = document.getElementById('viewer');
             viewer.setAttribute('src', `${model}`);
         }
     </script>
