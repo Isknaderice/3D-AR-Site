@@ -46,19 +46,12 @@
         <button onclick="changeModel('model3.glb')">Model 3</button>
     </div>
 
-    <model-viewer id="viewer"
-                  src="model1.glb"
-                  alt="A 3D model"
-                  ar ar-modes="scene-viewer webxr quick-look"
-                  environment-image="neutral"
-                  auto-rotate camera-controls shadow-intensity="1"
-                  ar-placement="floor">
-    </model-viewer>
+    <model-viewer id="viewer" src="model1.glb" alt="A 3D model" ar ar-modes="scene-viewer webxr quick-look" environment-image="neutral" auto-rotate camera-controls shadow-intensity="1"></model-viewer>
 
     <script>
         function changeModel(model) {
             const viewer = document.getElementById('viewer');
-            viewer.setAttribute('src', `${model}`);
+            viewer.setAttribute('src', model);
         }
     </script>
 </body>
